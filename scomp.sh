@@ -1,11 +1,39 @@
 #!/bin/bash
-mkdir /tmp/scomp
-DIR="/tmp/scomp"
-WAIT=5
 
 #trap 'cd .. ; sudo umount ./image_dir; exit 1' 1 2 3 15
-trap 'rm -r /tmp/scdiff &> /dev/null; exit 1' 1 2 3 15
+trap 'rm -r /tmp/scomp &> /dev/null; exec 99<&~ &> /dev/null ;exit 1' 1 2 3 15
 
+if [ $# -ne 1 ]; then
+	echo 'scomp SERIAL_DEVICE'
+	exit 1
+fi
+
+#
+# DIR    - Temporary Images which created from 'import' and 'compose' commands.
+# WAIT   - Wait a 'WAIT' seconds. 
+# SERIAL - Serial device. It's like '/dev/ttyUSB0'. When the two images different, execute 'echo 1 > SERIAL' command.
+#
+
+DIR="/tmp/scomp"
+WAIT=2
+SERIAL=$1
+
+if [[ ! -e ${SERIAL} ]]; then
+	echo 'Invalid serial device'
+	exit 1
+fi
+
+if [[ ! -e "/tmp" ]]; then
+	echo 'There is no /tmp'
+	exit 1
+fi
+
+mkdir ${DIR}
+
+stty 9600 -F ${SERIAL}
+exec 99<>${SERIAL}
+
+#echo ${SERIAL}
 #echo 'Mount tmpfs...'
 #sudo mount -t tmpfs -o size=3m /dev/shm ./image_dir
 #cd ${DIR}
@@ -31,7 +59,8 @@ do
 
 	if [ "${ret}" != "0" ]; then
 		#echo 'Difference Image'
-		echo
+		#DO SOMETHING
+		printf "1\r" > ${SERIAL}
 	fi
 
 	#echo 'Prepare next...' 
