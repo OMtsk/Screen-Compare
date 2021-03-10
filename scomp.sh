@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #trap 'cd .. ; sudo umount ./image_dir; exit 1' 1 2 3 15
-trap 'rm -r /tmp/scomp &> /dev/null; exec 99<&~ &> /dev/null ;exit 1' 1 2 3 15
+trap 'rm -r /tmp/scomp &> /dev/null; exec 99<&~ ;exit 1' 1 2 3 15
 
 if [ $# -ne 1 ]; then
 	echo 'scomp SERIAL_DEVICE'
@@ -39,7 +39,10 @@ exec 99<>${SERIAL}
 #cd ${DIR}
 
 #echo 'Import First Screen Capture...'
-import -window root $DIR/first.jpg
+#import -window root $DIR/first.jpg
+xwd -root > $DIR/first.xwd
+convert $DIR/first.xwd $DIR/first.jpg
+rm $DIR/first.xwd
 
 #Start Loop 
 while true
@@ -48,7 +51,10 @@ do
 	sleep $WAIT
 
 	#echo 'I waking up now, import next Screen Capture...'
-	import -window root $DIR/next.jpg
+	#import -window root $DIR/next.jpg
+	xwd -root > $DIR/next.xwd
+	convert $DIR/next.xwd $DIR/next.jpg
+	rm $DIR/next.xwd
 
 	#echo 'Compare Images...'
 	composite -compose difference $DIR/first.jpg $DIR/next.jpg $DIR/diff.jpg
