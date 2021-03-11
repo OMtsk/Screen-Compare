@@ -7,9 +7,10 @@ Screen Compare
 
 ## Description
   
-　makeやあアップデートなどで待つことが多い。その間に他のこと(仮眠)をしたい。しかし、進捗を確認するため画面を見なければならない。これでは仮眠(他の作業)に集中できない!!そこで、"Screen Compare"を使用する。  
-　"Screen Compare"は画面全体のスクリーンショットを1秒おきに取得する。取得したスクリーンショットを比較し、もし同じならサーボモータを回転させる。これによってmakeやアップデートなどが終わったと分かる。（スピーカではなくサーボモータであるのは、近くにサーボモータがあったから）
-　
+　makeやあアップデートなどで待つことが多い。その間に他のこと(仮眠)をしたい。しかし、進捗を確認するため画面を見なければならない。これでは仮眠(他の作業)に集中できない!!そこで、"Screen Compare"を使用する。    
+
+　"Screen Compare"は画面全体のスクリーンショットを1秒おきに取得する。取得したスクリーンショットを比較し、もし同じならサーボモータを回転させる。これによってmakeやアップデートなどが終わったと分かる。（近くにサーボモータがあったのでサーボモータを使用した）
+  
 ## Demo
   
 画面に変更がある(ない)と、サーボモータが動きます
@@ -41,18 +42,17 @@ $ scomp.sh 1 /dev/ttyACM0
   
 ## Install
   
-・Ubuntu / Debian
+Ubuntu / Debian
 ```bash
-# apt install imagemagick 
+$ sudo apt install imagemagick 
 ```
   
-・Gentoo Linux
+Gentoo Linux
 ```bash
-# emerge -av imagemagick xwd
+$ sudo emerge -av imagemagick xwd
 ```
   
-・Arduino IDEをインストール  
-・ArduinoをPCにUSBで接続  
-・以下のプログラムをArduinoに書き込む  
-	Arduino/scomp.ino  
-・scomp.shを実行  
+1. Arduino IDEをインストール  
+2. ArduinoをPCにUSBで接続  
+3. Arduino/scomp.ino をArduinoに書き込む  
+4. scomp.shを実行  
