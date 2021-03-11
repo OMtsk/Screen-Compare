@@ -3,8 +3,10 @@
 #trap 'cd .. ; sudo umount ./image_dir; exit 1' 1 2 3 15
 trap 'rm -r /tmp/scomp &> /dev/null; exec 99<&~ ;exit 1' 1 2 3 15
 
-if [ $# -ne 1 ]; then
-	echo 'scomp SERIAL_DEVICE'
+if [ $# -ne 2 ]; then
+	echo 'scomp 1 or 0 SERIAL PORT'
+	echo "0: when screen don't change, do something."  
+	echo "1: when screen change, do something"
 	exit 1
 fi
 
@@ -16,7 +18,17 @@ fi
 
 DIR="/tmp/scomp"
 WAIT=1
-SERIAL=$1
+ARG=$1
+SERIAL=$2
+
+if [ ${ARG} != "1" ]; then
+	if [ ${ARG} != "0" ]; then
+		echo "0: when screen don't change, do something."  
+		echo "1: when screen change, do something"
+		exit 1
+	fi
+fi
+
 
 if [[ ! -e ${SERIAL} ]]; then
 	echo 'Invalid serial device'
@@ -64,14 +76,26 @@ do
 	#echo -e ${ret}
 
 	if [ "${ret}" != "0" ]; then
-		#echo 'Difference Image'
-		#DO SOMETHING
-		if [[ ! -e ${SERIAL} ]]; then
-			echo 'Not found serial device'
-			exit 1
-		else
-			printf "1\r" > ${SERIAL}
+		if [ ${ARG} == "1" ]; then
+			#DO SOMETHING
+			if [[ ! -e ${SERIAL} ]]; then
+				echo 'Not found serial device'
+				exit 1
+			else
+				printf "1\r" > ${SERIAL}
+			fi
 		fi
+	else
+		if [ ${ARG} == "0" ]; then
+			#DO SOMETHING
+			if [[ ! -e ${SERIAL} ]]; then
+				echo 'Not found serial device'
+				exit 1
+			else
+				printf "1\r" > ${SERIAL}
+			fi
+		fi
+
 	fi
 
 	#echo 'Prepare next...' 
