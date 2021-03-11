@@ -15,9 +15,9 @@ void setup() {
 void loop() {
   if(Serial.available()){
     if(Serial.read() == '1'){
-        digitalWrite(11, HIGH);
-        delay(500);
-        digitalWrite(11, LOW);
+        //digitalWrite(11, HIGH);
+        //delay(500);
+        //digitalWrite(11, LOW);
 
         servo.write(85);
         delay(100);

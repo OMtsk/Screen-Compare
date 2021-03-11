@@ -15,7 +15,7 @@ fi
 #
 
 DIR="/tmp/scomp"
-WAIT=2
+WAIT=1
 SERIAL=$1
 
 if [[ ! -e ${SERIAL} ]]; then
@@ -66,7 +66,12 @@ do
 	if [ "${ret}" != "0" ]; then
 		#echo 'Difference Image'
 		#DO SOMETHING
-		printf "1\r" > ${SERIAL}
+		if [[ ! -e ${SERIAL} ]]; then
+			echo 'Not found serial device'
+			exit 1
+		else
+			printf "1\r" > ${SERIAL}
+		fi
 	fi
 
 	#echo 'Prepare next...' 
