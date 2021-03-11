@@ -53,6 +53,7 @@ $ sudo emerge -av imagemagick xwd
 ```
   
 1. Arduino IDEをインストール  
-2. ArduinoをPCにUSBで接続  
-3. Arduino/scomp.ino をArduinoに書き込む  
-4. scomp.shを実行  
+2. Digital pin 6にサーボモータの信号線を接続 
+3. ArduinoをPCにUSBで接続  
+4. Arduino/scomp.ino をArduinoに書き込む  
+5. scomp.shを実行  
